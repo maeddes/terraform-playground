@@ -138,7 +138,7 @@ resource "azurerm_virtual_machine" "mhsterraformvm" {
 
     os_profile {
         computer_name  = "mhsvm"
-        admin_username = "admin"
+        admin_username = "vmadmin"
         admin_password = "passw0rd!"
     }
 
