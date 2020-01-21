@@ -2,8 +2,8 @@ provider "azurerm" {
     subscription_id = ${ARM_SUBSCRIPTION_ID}
     tenant_id       = ${ARM_TENANT_ID}
 }
-resource "azurerm_resource_group" "myterraformgroup" {
-    name     = "myResourceGroup"
+resource "azurerm_resource_group" "testterraformgroup" {
+    name     = "testResourceGroup"
     location = "germanywestcentral"
 
     tags = {
