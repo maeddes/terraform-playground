@@ -1,4 +1,6 @@
 variable "name" {}
+variable "sp_client_id" {}
+variable "sp_client_secret" {}
 
 provider "azurerm" {
     #subscription_id = ARM_SUBSCRIPTION_ID
@@ -40,6 +42,11 @@ resource "azurerm_kubernetes_cluster" "this" {
     node_count      = 2
     os_disk_size_gb = 30
     vnet_subnet_id  = azurerm_subnet.this.id
+  }
+
+  service_principal {
+    client_id     = var.sp_client_id
+    client_secret = var.sp_client_secret
   }
  
 }
