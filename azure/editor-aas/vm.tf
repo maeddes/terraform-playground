@@ -4,6 +4,7 @@ resource "azurerm_virtual_machine" "jsa-tf-eaas-vm" {
     resource_group_name   = azurerm_resource_group.jsa-tf-eaas-rg.name
     network_interface_ids = [azurerm_network_interface.jsa-tf-eaas-ni.id]
     vm_size               = "Standard_DS1_v2"
+    delete_os_disk_on_termination = true
 
     storage_os_disk {
         name              = "myOsDisk"
@@ -38,20 +39,26 @@ resource "azurerm_virtual_machine" "jsa-tf-eaas-vm" {
         storage_uri = azurerm_storage_account.jsa-tf-eaas-storageaccount.primary_blob_endpoint
     }
 
+    connection {
+        type = "ssh"
+        user = "testadmin"
+        password = "Adminpass123"
+        # private_key = file("~/Documents/ssh/jsa-tf-eaas.pem")
+        host = azurerm_public_ip.jsa-tf-eaas-pubip.ip_address
+
+        timeout = "30s"
+    }
+
+    provisioner "file" {
+        source = "./remote_scripts/setup.sh"
+        destination = "~/setup.sh"
+    }
+
     provisioner "remote-exec" {
         inline = [
-            "echo Hello > test.txt"
+            "chmod +x ~/setup.sh",
+            "sudo sh ~/setup.sh"
         ]
-
-        connection {
-            type = "ssh"
-            user = "testadmin"
-            password = "Adminpass123"
-            # private_key = file("~/Documents/ssh/jsa-tf-eaas.pem")
-            host = azurerm_public_ip.jsa-tf-eaas-pubip.ip_address
-
-            timeout = "1m"
-        }
     }
 
     tags = {
