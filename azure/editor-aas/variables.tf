@@ -1,5 +1,5 @@
 variable "password" {
   type        = string
-  default     = "Adminpass123"
+  default     = 
   description = "Password for the testadmin user"
 }

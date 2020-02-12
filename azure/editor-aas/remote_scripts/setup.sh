@@ -18,7 +18,7 @@ sudo apt -y install code
 testuserpassword=$(openssl passwd -crypt newpass)
 sudo useradd -m testuser -p $testuserpassword
 
-# Clone project and open vs code with the project upon login
+# Clone sample project
 sudo mkdir /home/testuser/Projects
 cd /home/testuser/Projects
 sudo git clone https://github.com/maeddes/terraform-playground.git

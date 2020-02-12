@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine" "jsa-tf-eaas-vm" {
     os_profile {
         computer_name  = "jsa-tf-eaas-vm"
         admin_username = "testadmin"
-        admin_password = "Adminpass123"
+        admin_password = var.password
     }
 
     os_profile_linux_config {
@@ -42,7 +42,7 @@ resource "azurerm_virtual_machine" "jsa-tf-eaas-vm" {
     connection {
         type = "ssh"
         user = "testadmin"
-        password = "Adminpass123"
+        password = var.password
         # private_key = file("~/Documents/ssh/jsa-tf-eaas.pem")
         host = azurerm_public_ip.jsa-tf-eaas-pubip.ip_address
 
