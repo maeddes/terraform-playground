@@ -12,7 +12,7 @@ resource "azurerm_mariadb_server" "jsa-db-server" {
     }
 
     administrator_login          = "dbadmin"
-    administrator_login_password = "Adminpass123"
+    administrator_login_password = var.dbadminpasswod
     version                      = "10.2"
     ssl_enforcement              = "Enabled"
 
@@ -33,8 +33,18 @@ resource "azurerm_mariadb_firewall_rule" "jsa-db-access" {
     name                = "jsa-ip"
     resource_group_name = "jsa-tf-db-rg"
     server_name         = "mariadb-server"
-    start_ip_address    = # IP Range that needs to have
-    end_ip_address      = # Access to the Db-Server
+    start_ip_address    = # Your IP
+    end_ip_address      = # Address
 
     depends_on = [azurerm_mariadb_server.jsa-db-server]
+}
+
+resource "azurerm_mariadb_firewall_rule" "webserver-db-access" {
+    name                = "webserver-ip"
+    resource_group_name = "jsa-tf-db-rg"
+    server_name         = "mariadb-server"
+    start_ip_address    = azurerm_public_ip.jsa-tf-db-pubip.ip_address
+    end_ip_address      = azurerm_public_ip.jsa-tf-db-pubip.ip_address
+
+    depends_on = [azurerm_mariadb_server.jsa-db-server, azurerm_public_ip.jsa-tf-db-pubip]
 }
