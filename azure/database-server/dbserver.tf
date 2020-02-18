@@ -12,7 +12,7 @@ resource "azurerm_mariadb_server" "jsa-db-server" {
     }
 
     administrator_login          = "dbadmin"
-    administrator_login_password = var.dbadminpasswod
+    administrator_login_password = var.dbadminpassword
     version                      = "10.2"
     ssl_enforcement              = "Enabled"
 
@@ -33,8 +33,8 @@ resource "azurerm_mariadb_firewall_rule" "jsa-db-access" {
     name                = "jsa-ip"
     resource_group_name = "jsa-tf-db-rg"
     server_name         = "mariadb-server"
-    start_ip_address    = # Your IP
-    end_ip_address      = # Address
+    start_ip_address    = 
+    end_ip_address      = 
 
     depends_on = [azurerm_mariadb_server.jsa-db-server]
 }
