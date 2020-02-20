@@ -15,6 +15,7 @@
 **/.terraform
 **tfstate*
 **install.plan
+**temp
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -1,4 +1,5 @@
 variable "name" {}
+variable "resource_group" {}
 variable "sp_client_id" {}
 variable "sp_client_secret" {}
 
@@ -7,41 +8,22 @@ provider "azurerm" {
     #tenant_id       = ARM_TENANT_ID
 }
 
-resource "azurerm_resource_group" "this" {
-  name     = "${var.name}-resource-group"
-  location = "westeurope"
-}
-
-resource "azurerm_virtual_network" "this" {
-  name                = "${var.name}-virtual-net"
-  location            = "westeurope"
-  resource_group_name = azurerm_resource_group.this.name
-  address_space       = ["10.0.0.0/8"]
-}
-
-resource "azurerm_subnet" "this" {
-  name                 = "${var.name}-subnet"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.this.name
-  address_prefix       = "10.10.0.0/20"
-  lifecycle {
-    ignore_changes = ["route_table_id"]
-  }
+data "azurerm_resource_group" "resource_group" {
+  name = var.resource_group
 }
 
 resource "azurerm_kubernetes_cluster" "this" {
-  name                = "${var.name}-aks"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
-  kubernetes_version  = "1.14.8"
-  dns_prefix          = var.name
+  name                = "${var.name}-k8s-cluster"
+  location            = data.azurerm_resource_group.resource_group.location
+  resource_group_name = var.resource_group
+  dns_prefix          = "${var.name}-aks"
+  #kubernetes_version  = "1.14.8"
   
   default_node_pool {
-    name            = "minion"
-    vm_size         = "Standard_D4s_v3"
-    node_count      = 2
-    os_disk_size_gb = 30
-    vnet_subnet_id  = azurerm_subnet.this.id
+    name            = "worker"
+    vm_size         = "Standard_DS2_v2"
+    node_count      = 1
+  #   os_disk_size_gb = 10
   }
 
   service_principal {
