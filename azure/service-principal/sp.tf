@@ -1,9 +1,14 @@
 resource "azuread_application" "example" {
-  name = "My First AzureAD Application"
+  name                       = "example"
+  homepage                   = "http://homepage"
+  identifier_uris            = ["http://uri"]
+  reply_urls                 = ["http://replyurl"]
+  available_to_other_tenants = false
+  oauth2_allow_implicit_flow = true
 }
 
 resource "azuread_service_principal" "service_principal" {
-  application_id = "${azuread_application.example.application_id}"
+  application_id = azuread_application.example.application_id
 }
 
 resource "random_string" "password" {
@@ -15,8 +20,8 @@ resource "random_string" "password" {
 }
 
 resource "azuread_service_principal_password" "service_principal_password" {
-  service_principal_id = "${azuread_service_principal.service_principal.id}"
-  value                = "${random_string.password.result}"
+  service_principal_id = azuread_service_principal.service_principal.id
+  value                = random_string.password.result
   end_date_relative    = "8760h"
 }
 
