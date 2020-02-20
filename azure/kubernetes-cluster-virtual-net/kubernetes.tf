@@ -37,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   dns_prefix          = var.name
   
   default_node_pool {
-    name            = "minion"
+    name            = "worker"
     vm_size         = "Standard_DS2_v2"
     node_count      = 1
     vnet_subnet_id  = azurerm_subnet.this.id
