@@ -1,5 +1,5 @@
-resource "azuread_application" "example" {
-  name                       = "example"
+resource "azuread_application" "sp" {
+  name                       = "sp"
   homepage                   = "http://homepage"
   identifier_uris            = ["http://uri"]
   reply_urls                 = ["http://replyurl"]
@@ -8,7 +8,7 @@ resource "azuread_application" "example" {
 }
 
 resource "azuread_service_principal" "service_principal" {
-  application_id = azuread_application.example.application_id
+  application_id = azuread_application.sp.application_id
 }
 
 resource "random_string" "password" {
@@ -25,3 +25,14 @@ resource "azuread_service_principal_password" "service_principal_password" {
   end_date_relative    = "8760h"
 }
 
+output "application" {
+  value = azuread_application.sp
+}
+
+output "service_principal" {
+  value = azuread_service_principal.service_principal
+}
+
+output "service_principal_password" {
+  value = azuread_service_principal_password.service_principal_password
+}

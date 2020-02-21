@@ -10,6 +10,7 @@ resource "azurerm_resource_group" "testterraformgroup" {
         environment = "Terraform Demo"
     }
 }
+
 data "azurerm_client_config" "current" {}
 
 output "account_id" {
