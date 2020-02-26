@@ -6,6 +6,7 @@
 
 - https://www.terraform.io/docs/cli-index.html
 - https://www.terraform.io/docs/configuration/variables.html#environment-variables
+- https://www.linode.com/docs/applications/configuration-management/secrets-management-with-terraform/
 
 ### Azure
 
