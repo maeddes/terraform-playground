@@ -16,6 +16,7 @@
 **tfstate*
 **install.plan
 **temp
+secrets.auto.tfvars
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
