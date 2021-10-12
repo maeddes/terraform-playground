@@ -1,7 +1,7 @@
 provider "google" {
-  credentials = file("/path/to/file")
+  credentials = file("/home/julian/Documents/gcp/active-woodland-324808-271662d37497.json")
 
-  project = "<project-id>"
+  project = "active-woodland-324808"
   region  = "europe-west3"
   zone    = "europe-west3-b"
 }
